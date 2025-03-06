@@ -3,7 +3,7 @@ const express = require('express');
 const router = express.Router();
 
 router.get('/card/:id', async (req, res) => {
-    console.log("Card IMG hit");
+    console.log("Database Hit - Card Image URI");
     console.log("Params:", JSON.stringify(req.params));
     console.log("Body:", JSON.stringify(req.body));
     console.log("Query:", JSON.stringify(req.query));

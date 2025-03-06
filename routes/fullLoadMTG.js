@@ -3,6 +3,12 @@ const express = require('express');
 const router = express.Router();
 
 router.get('/allCards/', async (req, res) => {
+    console.log("Database Hit - All Cards");
+    console.log("Params:", JSON.stringify(req.params));
+    console.log("Body:", JSON.stringify(req.body));
+    console.log("Query:", JSON.stringify(req.query));
+    console.log("---------------");
+
     try {
         const cards = await CardMTG.aggregate([
             {
@@ -43,12 +49,6 @@ router.get('/allCards/', async (req, res) => {
         if (!cards) {
             return res.status(404).json({ exists: false, message: 'Error loading cards' });
         }
-        
-        console.log("Database Hit");
-        console.log("Params:", JSON.stringify(req.params));
-        console.log("Body:", JSON.stringify(req.body));
-        console.log("Query:", JSON.stringify(req.query));
-        console.log("---------------");
         res.json({ exists: true, cards });
     } catch (error) {
         console.error(error);
