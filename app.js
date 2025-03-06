@@ -20,10 +20,11 @@ const corsOptions = {
     if(!origin || allowedOrigins.indexOf(origin) !== -1) {
       callback(null, true);
     } else {
+      console.log('Blocked origin:', origin);
       callback(new Error('Not allowed by CORS'));
     }
   },
-  Credential: true
+  credentials: true
 };
 
 // Apply CORS middleware
