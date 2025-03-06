@@ -1,3 +1,5 @@
+# mtg-deck-builder-backend
+
 Structure
 project-root/
 │
