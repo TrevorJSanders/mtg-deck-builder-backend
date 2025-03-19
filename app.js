@@ -1,12 +1,13 @@
 const express = require('express');
 const cors = require('cors');
+const { ALLOWED_ORIGINS, PORT, IS_PRODUCTION } = require('./config/constants');
 const connectDB = require('./config/db');
+
 //const {downloadBulkImgFile} = require('./services/mtgBulkImgService');
 //const {downloadBulkOracleFile} = require('./services/mtgBulkOracleService');
 const helloRoutes = require('./routes/hello');
 const getImgMTG = require('./routes/CardMTG');
 const fullLoadMTG = require('./routes/fullLoadMTG');
-const {PORT, ALLOWED_ORIGINS} = require('./config/constants')
 
 // Initialize Express
 const app = express();
@@ -20,7 +21,11 @@ const corsOptions = {
     if(!origin || allowedOrigins.indexOf(origin) !== -1) {
       callback(null, true);
     } else {
-      console.log('Blocked origin:', origin);
+      if (IS_PRODUCTION) {
+        console.error(`CORS block: ${origin} not in allowed list: ${allowedOrigins.join(', ')}`);
+      } else {
+        console.log(`CORS notice: ${origin} not in allowed list: ${allowedOrigins.join(', ')}`);
+      }
       callback(new Error('Not allowed by CORS'));
     }
   },
@@ -41,5 +46,5 @@ app.use('/api/', getImgMTG);
 
 // Start the server
 app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
+  console.log(`Server running in ${IS_PRODUCTION ? 'production' : 'development'} mode on port ${PORT}`);
 });
